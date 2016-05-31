@@ -1,0 +1,338 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+     *
+     * JavaScript / WebGL teaching framwork
+     * (C)opyright Kristian Hildebrand, khildebrand@beuth-hochschule.de
+    -->
+
+    <title>CG2 A2: WebGL / Surfaces</title>
+
+    <!-- import main module using RequireJS -->
+    <script data-main="app.js" src="../lib/require.js"></script>
+
+    <!-- import style sheet -->
+    <link rel="stylesheet" type="text/css" media="screen" href="style/style.css">
+
+</head>
+
+<body>
+
+    <!-- this element will be used to diplay errors -->
+    <pre id="error"></pre>
+
+    <!-- centered region with drawing canvas and parameter area -->
+    <div align="center">
+
+        <div id="drawing_container" width="600" height="400"></div>
+
+        <div id="param_area">
+
+            <button id="btnRandom" type="button">Random</button>
+            <button id="btnBand" type="button">Band</button>
+            <button id="btnParametric" type="button">Parametric</button>
+            <button id="btnCube" type="button">Cube</button>
+            <button id="btnSphere" type="button">Sphere</button>
+            <button id="btnCylinder" type="button">Cylinder</button>
+            <button id="btnLoaders" type="button">Loader</button>
+
+            <!-- add more here... -->
+            <h3>Selected Object:</h3>
+            <table id="table_loaders">
+                <tr>
+                    <td>OGJ_Loader</td>
+                    <td>
+                        <button id="btnLoadObj" type="button">Load OBJ</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Select Object</td>
+                    <td>
+                        <select id="obj_select">
+                            <option>dromedar</option>
+                            <option>magnolia</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <table id="random">
+                <tr>
+                    <td>Number of Items:</td>
+                    <td>
+                        <input id="numItems" class="objParam" type="number" min="1" max="10000" value="60">
+                    </td>
+                </tr>
+                <tr>
+                    <td> points on/off</td>
+                    <td>
+                        <input id="chckPointsRand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td> solid on/off</td>
+                    <td>
+                        <input id="chckWireFrameRand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td> mesh on/off</td>
+                    <td>
+                        <input id="chckMeshRand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnNewRandom" type="button">Create Random</button>
+                    </td>
+                </tr>
+            </table>
+            <table id="band">
+                <tr>
+                    <td>Number of Segments:</td>
+                    <td>
+                        <input id="numSegments" class="objParam" type="number" min="1" max="10000" value="10">
+                        <td>
+                </tr>
+                <tr>
+                    <td>Radius:</td>
+                    <td>
+                        <input id="radius" class="objParam" type="number" min="1" max="1000" value="300">
+                        <td>
+                </tr>
+                <tr>
+                    <td>Height:</td>
+                    <td>
+                        <input id="height" class="objParam" type="number" min="1" max="1000" value="100">
+                        <td>
+                </tr>
+                <tr>
+                    <td>points on/off</td>
+                    <td>
+                        <input id="chckPointsBand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>solid on/off</td>
+                    <td>
+                        <input id="chckWireFrameBand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td> mesh on/off </td>
+                    <td>
+                        <input id="chckMeshBand" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnNewBand" type="button">Create Band</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="cube_table">
+                <tr>
+                    <td>X Dimension</td>
+                    <td>
+                        <input id="x_input_cube" class="objParam" type="number" min="1" max="10000" value="400">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Y Dimension</td>
+                    <td>
+                        <input id="y_input_cube" class="objParam" type="number" min="1" max="10000" value="400">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Z Dimension</td>
+                    <td>
+                        <input id="z_input_cube" class="objParam" type="number" min="1" max="10000" value="400">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wireframe on/off</td>
+                    <td>
+                        <input id="vis_cube_wireframe" type="checkbox">
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnNewCube" type="button">Create Cube</button>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="sphere_table">
+                <tr>
+                    <td>Radius</td>
+                    <td>
+                        <input id="sphere_radius" class="objParam" type="number" min="1" max="10000" value="350">
+                    </td>
+                </tr>
+                <tr>
+                    <td>W-Segments</td>
+                    <td>
+                        <input id="width_segments" class="objParam" type="number" min="1" max="10000" value="40">
+                    </td>
+                </tr>
+                <tr>
+                    <td>H-Segments</td>
+                    <td>
+                        <input id="height_segments" class="objParam" type="number" min="1" max="10000" value="40">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnNewSphere" type="button">Create Sphere</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wireframe on/off</td>
+                    <td>
+                        <input id="vis_sphere_wireframe" type="checkbox">
+                </tr>
+            </table>
+
+            <table id="cylinder_table">
+                <tr>
+                    <td>RadiusTop</td>
+                    <td>
+                        <input id="radius_top" class="objParam" type="number" min="1" max="10000" value="100">
+                    </td>
+                </tr>
+                <tr>
+                    <td>RadiusBotm</td>
+                    <td>
+                        <input id="radius_bottom" class="objParam" type="number" min="1" max="10000" value="100">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Height</td>
+                    <td>
+                        <input id="cylinder_height" class="objParam" type="number" min="1" max="10000" value="350">
+                    </td>
+                </tr>
+                <tr>
+                    <td>NumSegments</td>
+                    <td>
+                        <input id="number_radiusSegments" class="objParam" type="number" min="1" max="10000" value="350">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Wireframe on/off</td>
+                    <td>
+                        <input id="vis_cylinder_wireframe" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnNewCylinder" type="button">Create Cylinder</button>
+                    </td>
+                </tr>
+            </table>
+            <table id="parametric_table">
+                <tr>
+                    <td>Umin</td>
+                    <td>
+                        <input id="numUmin" class="objParam" type="number" min="1" max="10000" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Umax</td>
+                    <td>
+                        <input id="numUmax" class="objParam" type="number" min="1" max="10000" value="6.28">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vmin</td>
+                    <td>
+                        <input id="numVmin" class="objParam" type="number" min="1" max="10000" value="0">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vmax</td>
+                    <td>
+                        <input id="numVmax" class="objParam" type="number" min="1" max="10000" value="6.28">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Seg. U</td>
+                    <td>
+                        <input id="numUSegments" class="objParam" type="number" min="1" max="10000" value="15">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Seg. V</td>
+                    <td>
+                        <input id="numVSegments" class="objParam" type="number" min="1" max="10000" value="15">
+                    </td>
+                </tr>
+                <tr>
+                    <td>a</td>
+                    <td>
+                        <input id="numA" class="objParam" type="number" min="1" max="10000" value="500">
+                    </td>
+                </tr>
+                <tr>
+                    <td>b</td>
+                    <td>
+                        <input id="numB" class="objParam" type="number" min="1" max="10000" value="250">
+                    </td>
+                </tr>
+                <tr>
+                    <td>c</td>
+                    <td>
+                        <input id="numC" class="objParam" type="number" min="1" max="10000" value="125">
+                    </td>
+                </tr>
+                <tr>
+                    <td> points</td>
+                    <td>
+                        <input id="chckPointsParametric" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td> solid</td>
+                    <td>
+                        <input id="chckWireFrameParametric" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td> mesh</td>
+                    <td>
+                        <input id="chckMeshParametric" type="checkbox">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnEllipsoid" type="button">Ellipsoid</button>
+                    </td>
+                    <td>
+                        <button id="btnTranguloid" type="button">Tranguloid</button>
+                    </td>
+                    <td>
+                        <button id="btnPillow" type="button">Pillow</button>
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td for="">Animations x,y,z</td>
+                    <td>
+                        <input id="chckAnimX" type="checkbox">
+                    </td>
+                    <td>
+                        <input id="chckAnimY" type="checkbox">
+                    </td>
+                    <td>
+                        <input id="chckAnimZ" type="checkbox">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,3 +1,8 @@
+/*
+* defines the function for a pillow-object
+* and passes it to the parametric-surface object
+*/
+
 define(["three", 'parametric_surface'],
     (function(THREE, ParametricSurface) {
 
@@ -15,6 +20,7 @@ define(["three", 'parametric_surface'],
                 return [x, y, z];
             };
 
+            //the Pillow_Function is passed to the parametric surface.. here its calles posFunc
             var parametricSurface = new ParametricSurface(Pillow_Function, this.config);
 
             this.positions = parametricSurface.getPositions();

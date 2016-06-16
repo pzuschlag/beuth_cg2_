@@ -25,19 +25,27 @@ define(["three"],
             var radius = config.radius || 300;
             var height = config.height || 100;
 
+            /*Float-Arrays - 3 Fields for each Segment*/
             this.positions = new Float32Array(2 * segments * 3);
             this.colors = new Float32Array(2 * segments * 3);
             this.indices = new Uint32Array(2 * segments * 3);
 
             //________________indizies_______________________
-
+            /*the triangles will be sortet..
+            * this is the array after the whole process:
+            * [0, 1, 3, 0, 3, 2, 2, 3, 5, 2, 5, 4,
+            * 4, 5, 7, 4, 7, 6, 6, 7, 9, 6, 9, 8,
+            * 8, 9, 11, 8, 11, 10, 10, 11, 13, 10, 13, 12,
+            * 12, 13, 15, 12, 15, 14, 14, 15, 17, 14, 17, 16,
+            * 16, 17, 19, 16, 19, 18, 18, 19, 1, 18, 1, 0]
+            */
             this.indices[0] = 0;
             this.indices[1] = 1;
             this.indices[2] = 3;
             this.indices[3] = 0;
             this.indices[4] = 3;
             this.indices[5] = 2;
-
+            //console.log("this.indices 1: ", this.indices);
             for (var i = 6; i < this.indices.length - 6; i += 6) {
                 this.indices[i] = this.indices[i - 6] + 2;
                 this.indices[i + 1] = this.indices[i - 5] + 2;
@@ -45,7 +53,7 @@ define(["three"],
                 this.indices[i + 3] = this.indices[i - 3] + 2;
                 this.indices[i + 4] = this.indices[i - 2] + 2;
                 this.indices[i + 5] = this.indices[i - 1] + 2;
-
+                console.log("this.indices[",i, "]: ", this.indices[i]);
             }
 
             this.indices[i] = this.indices[i - 6] + 2;
@@ -54,7 +62,7 @@ define(["three"],
             this.indices[i + 3] = this.indices[i - 3] + 2;
             this.indices[i + 4] = this.indices[1];
             this.indices[i + 5] = this.indices[0];
-
+            console.log("this.indices 3: ", this.indices);
             var color = new THREE.Color();
 
             for (var i = 0; i < this.positions.length; i += 6) {

@@ -34,7 +34,9 @@ requirejs.config({
         "BufferGeometry": "./scene/buffer_geometry",
         "HtmlController": "./controller/html_controller",
         "objloader": "./CG2-A02_2_files/loaders/OBJLoader",
-        "obj_tool": "./models/obj_tool"
+        "obj_tool": "./models/obj_tool",
+        "leg_test": "./models/leg_test",
+        "robot": "./models/robot"
 
     },
     shim: {
@@ -78,7 +80,7 @@ define(["jquery", "three", "scene", "HtmlController"],
 
             // this creates a 3d rendering context and
             // a canvas
-            var renderer = new THREE.WebGLRenderer();
+            var renderer = new THREE.WebGLRenderer({antialias: true, depth: true});
             renderer.setSize(canvasWidth, canvasHeight);
             renderer.setClearColor(0xEEEEEE, 1);
 

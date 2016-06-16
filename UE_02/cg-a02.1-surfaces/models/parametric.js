@@ -13,6 +13,7 @@ define(["three", "ellipsoid"],
         "use strict";
 
         var ParametricSurface = function(posFunc, config) {
+            /*settings for the object*/
             var umin = config.umin;
             var umax = config.umax;
             var vmin = config.vmin;
@@ -20,31 +21,16 @@ define(["three", "ellipsoid"],
             var uSegments = config.uSegments;
             var vSegments = config.vSegments;
 
-            /**
-             * Size of a piece.
-             * @type {number}
-             */
-            var du = (umax - umin) / uSegments;
 
-            /**
-             * Size of a piece.
-             * @type {number}
-             */
-            var dv = (vmax - vmin) / vSegments;
+            var parts_u = (umax - umin) / uSegments;
 
-            /**
-             * Array with positions.
-             * @type {Float32Array}
-             */
+            var parts_v = (vmax - vmin) / vSegments;
+
             //Menge der Segmente * 3
             this.positions = new Float32Array((uSegments + 1) * (vSegments + 1) * 3);
 
             this.indices = new Uint32Array((uSegments) * (vSegments) * 2 * 3);
 
-            /**
-             * Array with colors.
-             * @type {Float32Array}
-             */
             this.colors = new Float32Array((uSegments + 1) * (vSegments + 1) * 3);
 
             var color = new THREE.Color();
@@ -53,12 +39,14 @@ define(["three", "ellipsoid"],
             var counter = 0;
             var indexCounter = 0;
             for (var i = 0; i <= uSegments; i++) {
-                var u = umin + (i * du);
+                //calculate each step
+                var u = umin + (i * parts_u);
                 for (var j = 0; j <= vSegments; j++) {
-                    var v = vmin + (j * dv);
+                    var v = vmin + (j * parts_v);
 
-                    var xyz = posFunc(u, v);
-                    var n = 800;
+                    /*the given posFunc (for example the pillow-function) is called for each calculated u & v*/
+                    var xyz = posFunc(u, v); //returns an array
+                    var n = 800; //value needed to calculate the colors
                     var x = xyz[0];
                     var y = xyz[1];
                     var z = xyz[2];
@@ -67,6 +55,7 @@ define(["three", "ellipsoid"],
                     this.positions[counter + 1] = y;
                     this.positions[counter + 2] = z;
 
+                    //calculates r,g,b for each position
                     var vx = (x / n) + 0.5;
                     var vy = (y / n) + 0.5;
                     var vz = (z / n) + 0.5;
@@ -88,7 +77,6 @@ define(["three", "ellipsoid"],
                     indexCounter = indexCounter + 6;
 
                     counter = counter + 3;
-
                 }
             }
 

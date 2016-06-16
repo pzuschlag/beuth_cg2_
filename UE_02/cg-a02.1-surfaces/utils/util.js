@@ -1,6 +1,6 @@
 /*
- * JavaScript / Canvas teaching framwork 
- * (C)opyright Hartmut Schirmacher, hschirmacher.beuth-hochschule.de 
+ * JavaScript / Canvas teaching framwork
+ * (C)opyright Hartmut Schirmacher, hschirmacher.beuth-hochschule.de
  * changes by Kristian Hildebrand, khildebrand@beuth-hochschule.de
  *
  * Module: Util
@@ -18,14 +18,14 @@ define(["jquery"], (function($) {
     // start with an empty object
     var util = {};
 
-    /* 
-     *  Error object to be thrown for custom runtime errors 
+    /*
+     *  Error object to be thrown for custom runtime errors
      *  This will be available as <MODULE_NAME>.Error()
      */
     util.RuntimeError = function(msg,obj) {
 
-        // if an HTML element with id="error" exists, make it visible 
-        //    and insert the message als HTML text. 
+        // if an HTML element with id="error" exists, make it visible
+        //    and insert the message als HTML text.
         if($("#error")) {
             $('#error').text(msg);
             $('#error').css('display', 'block');
@@ -50,8 +50,8 @@ define(["jquery"], (function($) {
         // use message, or, alternatively, the error object itself
         var msg = err.message || err;
 
-        // if an HTML element with id="error" exists, make it visible 
-        //    and insert the message als HTML text. 
+        // if an HTML element with id="error" exists, make it visible
+        //    and insert the message als HTML text.
         if($("#error")) {
             $('#error').text(msg);
             $('#error').css('display', 'block');
@@ -82,7 +82,7 @@ define(["jquery"], (function($) {
     /* return the interface defined by this module */
     return util;
 
-})); // require 
+})); // require
 
 
 /*
@@ -144,7 +144,3 @@ window.cancelRequestAnimFrame = (function() {
         window.msCancelRequestAnimationFrame ||
         window.clearTimeout;
 })();
-
-
-
-            

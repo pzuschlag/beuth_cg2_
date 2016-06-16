@@ -1,3 +1,8 @@
+/*
+* defines the function for a tranguloid-object
+* and passes it to the parametric-surface object
+*/
+
 define(["three", 'parametric_surface'],
     (function(THREE, ParametricSurface) {
 

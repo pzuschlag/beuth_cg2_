@@ -49,7 +49,7 @@ define(["three"],
 
             if (mesh) {
                 this.materials.push(new THREE.MeshBasicMaterial({
-                    color: 0xeeffaa,
+                    color: 0xeedd22,
                     wireframe: true,
                     wireframeLinewidth: 0.5
                 }));

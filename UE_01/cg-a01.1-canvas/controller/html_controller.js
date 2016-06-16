@@ -261,6 +261,10 @@ define(["jquery", "KdTree_Class", "util", "KdUtil", "Line", "Circle", "Point", "
                 }
             }));
 
+            /*
+             * optional Task: Compute tangents to a circle starting from a given point
+             */
+
             $("#btn_place_circle_and_point").click((function() {
                 var style = {
                     width: 1,
@@ -276,15 +280,16 @@ define(["jquery", "KdTree_Class", "util", "KdUtil", "Line", "Circle", "Point", "
                 var a = _circle.radius;
                 var vec_c_p = vec2.sub(_point.center, _circle.p0);
                 var c = vec2.length(vec_c_p);
+                //Pythagoras..
                 var b = Math.sqrt(Math.pow(c, 2) - Math.pow(a, 2));
                 console.log("a: ", a, " | b: ", b, " | c: ", c);
-                //compute p & q (Kathetensatz)
+                //compute p & q (Kathetensatz: a^2=p*c | b^2=q*c - umstellen)
                 var p = Math.pow(a, 2) / c;
                 var q = Math.pow(b, 2) / c;
-                //compute height of triangle
+                //compute height of triangle (Höhensatz: h^2=p*q -> Wurzel aus p*q = Höhe)
                 var height = Math.sqrt(p * q);
-                //compute searched points: circle.p0+p*direction_c+height*direction_height
-                var direction_c = vec2.normalise(vec_c_p);;
+                //compute searched points: circle.p0+p*direction_c+-height*direction_height
+                var direction_c = vec2.normalise(vec_c_p);
                 var point_on_c = vec2.add(_circle.p0, vec2.mult(direction_c, p));
                 var normal_to_c = [-direction_c[1], direction_c[0]];
                 var vec_upper_point = vec2.add(point_on_c, vec2.mult(normal_to_c, height));
@@ -298,14 +303,10 @@ define(["jquery", "KdTree_Class", "util", "KdUtil", "Line", "Circle", "Point", "
                     style);
                 var lower_line = new Line([_point.center[0], _point.center[1]], [vec_lower_point[0], vec_lower_point[1]],
                     style);
-
-
                 scene.addObjects([upper_point, lower_point, upper_line, lower_line]);
                 sceneController.deselect();
                 sceneController.select(_point);
             }));
-
-
         };
         // return the constructor function
         return HtmlController;

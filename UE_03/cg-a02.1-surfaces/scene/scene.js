@@ -23,7 +23,8 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band", "ellipso
             var scope = this;
 
             scope.renderer = renderer;
-            renderer.setClearColor(0x000000);
+            renderer.setClearColor(0xAAAAAA);
+            renderer.setPixelRatio(window.devicePixelRatio);
 
             scope.t = 0.0;
 
@@ -152,7 +153,7 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band", "ellipso
             this.addBufferGeometry = function(bufferGeometry) {
 
                 scope.currentMesh = bufferGeometry.getMesh();
-            
+
                 scope.scene.add(scope.currentMesh);
             }
 
@@ -162,18 +163,33 @@ define(["three", "util", "shaders", "BufferGeometry", "random", "band", "ellipso
 
                     scope.currentMesh = input;
 
-                    //console.log("scope.currentMesh: ",scope.currentMesh);
-
                     scope.scene.add(scope.currentMesh);
                 } else {
                     scope.scene.add(input);
                 }
             }
 
+            this.addLight = function(light) {
+              scope.scene.add(light);
+              if (light instanceof  THREE.DirectionalLight) {
+                  scope.currentDirectionalLight = light;
+              }
+          }
+
+
+
             /*
              * drawing the scene
              */
+            var start = Date.now();
             this.draw = function() {
+
+                var explosion = scope.scene.getObjectByName('explosion');
+
+                if (explosion) {
+                    // start wird zur Laufzeit mit Date.now() initialisiert .
+                    explosion.material.uniforms['time'].value = .00035 * (Date.now() - start);
+                }
 
                 requestAnimFrame(scope.draw);
 

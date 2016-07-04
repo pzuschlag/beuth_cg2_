@@ -39,7 +39,7 @@
             <button id="btnCylinder" type="button">Cylinder</button>
             <button id="btnLoaders" type="button">Loader</button>
             <button id="btnShowRobot" type="button">Robot</button>
-
+            <button id="btnShaders" type="button">Shaders</button>
 
             <!-- add more here... -->
 
@@ -52,10 +52,43 @@
                     <td>
                         <input id="numLegSpheres" class="objParam" type="number" min="1" max="12" value="8">
                     </td>
-
                     <td>
                         <h7 for="chckAnimRobot"> anim on/off</h7>
                         <input id="chckAnimRobot" type="checkbox">
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+
+            <table id="table_Shaders">
+                <tr>
+                    <td>
+                        <button type="button" id="btnLoadPhongSphere">Load Phong</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" id="btnLoadPlanet">Load Planet</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button id="btnLoadExplosion" type="button">Load Explosion</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Night</td>
+                    <td>
+                        <input type="checkbox" id="chkNightTex" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>Clouds</td>
+                    <td>
+                        <input type="checkbox" id="chkCloudsTex" >
                     </td>
                 </tr>
             </table>

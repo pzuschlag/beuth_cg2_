@@ -26,45 +26,8 @@ define(["three", "BufferGeometry", "armLeg", "ellipsoid", "BufferGeometry"],
 
             var self = this;
 
-            //Background-Track
-            this.play_sound = function() {
-                var listener = new THREE.AudioListener();
-                self.background_track = new THREE.Audio(listener);
-                var audioLoader = new THREE.AudioLoader();
-                audioLoader.load('../cg-a02.1-surfaces/sounds/8bit_loop.wav', function(buffer) {
-                    self.background_track.setBuffer(buffer);
-                    self.background_track.setLoop(true);
-                    self.background_track.setVolume(0.6);
-                    self.background_track.play();
-                });
-            }
-            this.stop_sound = function() {
-                    self.background_track.pause();
-                }
-                //left footstep
-            this.play_left_footstep = function() {
-                    var listener = new THREE.AudioListener();
-                    self.step = new THREE.Audio(listener);
-                    var audioLoader = new THREE.AudioLoader();
-                    audioLoader.load('../cg-a02.1-surfaces/sounds/step_01.wav', function(buffer) {
-                        self.step.setBuffer(buffer);
-                        self.step.setVolume(0.5);
-                        self.step.play();
 
-                    });
-                }
-                //right footstep
-            this.play_right_footstep = function() {
-                var listener = new THREE.AudioListener();
-                self.step = new THREE.Audio(listener);
-                var audioLoader = new THREE.AudioLoader();
-                audioLoader.load('../cg-a02.1-surfaces/sounds/step_02.wav', function(buffer) {
-                    self.step.setBuffer(buffer);
-                    self.step.setVolume(0.5);
-                    self.step.play();
 
-                });
-            }
 
             this.buildRobot = function() {
 

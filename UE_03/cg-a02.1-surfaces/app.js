@@ -20,8 +20,7 @@ requirejs.config({
             '../lib/jquery-1.7.2.min'
         ],
 
-        "three": "../lib/three",
-
+        "three": "../lib/three.min",
         "scene": "./scene/scene",
         "random": "./models/random",
         "band": "./models/band",
@@ -30,13 +29,21 @@ requirejs.config({
         "tranguloid": "./models/tranguloid",
         "pillow": "./models/pillow",
         "util": "./utils/util",
-        "shaders": "./shaders",
         "BufferGeometry": "./scene/buffer_geometry",
         "HtmlController": "./controller/html_controller",
         "objloader": "./CG2-A02_2_files/loaders/OBJLoader",
         "obj_tool": "./models/obj_tool",
+        "phong": "./models/phong",
+        "phong_2": "./models/phong_2",
+        "phong_3": "./models/phong_3",
         "armLeg": "./models/arm_leg",
-        "robot": "./models/robot"
+        "robot": "./models/robot",
+        "explosion": "./models/explosion",
+        "planet": "./models/planet",
+
+        "shaders": "./shaders",
+        "unicolor_fs": "./shaders/unicolor.fs",
+        "unicolor_vs": "./shaders/unicolor.vs",
 
     },
     shim: {
@@ -80,7 +87,10 @@ define(["jquery", "three", "scene", "HtmlController"],
 
             // this creates a 3d rendering context and
             // a canvas
-            var renderer = new THREE.WebGLRenderer({antialias: true, depth: true});
+            var renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                depth: true
+            });
             renderer.setSize(canvasWidth, canvasHeight);
             renderer.setClearColor(0xEEEEEE, 1);
 

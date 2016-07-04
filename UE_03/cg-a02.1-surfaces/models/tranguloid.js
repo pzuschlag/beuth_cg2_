@@ -1,5 +1,5 @@
 /*
-* defines the function for a pillow-object
+* defines the function for a tranguloid-object
 * and passes it to the parametric-surface object
 */
 
@@ -8,20 +8,19 @@ define(["three", 'parametric_surface'],
 
         "use strict";
 
-        var Pillow = function(a, b, c, config) {
+        var Tranguloid = function(a, b, c, config) {
 
             this.config = config;
 
-            var Pillow_Function = function(u, v) {
-
-                var x = Math.cos(v) * 300;
-                var y = Math.cos(u) * 300;
-                var z = Math.sin(u) * Math.sin(v) * 300;
-                return [x, y, z];
+            var TranguloidFunction = function(u, v) {
+                var pi = Math.PI;
+                var x = (2 * Math.sin(3 * u) / (2 + Math.cos(v))) * 100;
+                var y = (2 * (Math.sin(u) + 2 * Math.sin(2 * u)) / (2 + Math.cos(v + 2 * (pi / 3)))) * 100;
+                var z = ((Math.cos(u) - 2 * Math.cos(2 * u)) * (2 + Math.cos(v)) * (2 + Math.cos(v + 2 * (pi / 3))) / 4) * 100;
+                return [x, y, z]
             };
 
-            //the Pillow_Function is passed to the parametric surface.. here its calles posFunc
-            var parametricSurface = new ParametricSurface(Pillow_Function, this.config);
+            var parametricSurface = new ParametricSurface(TranguloidFunction, this.config);
 
             this.positions = parametricSurface.getPositions();
             this.colors = parametricSurface.getColors();
@@ -37,7 +36,8 @@ define(["three", 'parametric_surface'],
             this.getIndices = function() {
                 return parametricSurface.getIndices();
             }
+
         };
 
-        return Pillow;
+        return Tranguloid;
     }));

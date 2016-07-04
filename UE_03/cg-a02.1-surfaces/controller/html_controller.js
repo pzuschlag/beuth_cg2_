@@ -11,8 +11,8 @@
 
 
 /* requireJS module definition */
-define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipsoid", "tranguloid", "pillow", "obj_tool", "robot"],
-    (function(THREE, $, BufferGeometry, Random, Band, Scene, Ellipsoid, Tranguloid, Pillow, OBJ_Tool, Robot) {
+define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipsoid", "tranguloid", "pillow", "obj_tool", "robot", "explosion", "phong_3", "planet"],
+    (function(THREE, $, BufferGeometry, Random, Band, Scene, Ellipsoid, Tranguloid, Pillow, OBJ_Tool, Robot, Explosion, Phong_3, Planet) {
         "use strict";
 
         /*
@@ -21,6 +21,8 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
          */
         var HtmlController = function(scene) {
 
+
+            var currentPlanet;
             this.animationInterval;
             var self = this;
 
@@ -124,10 +126,6 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 if (rightLeg_origin) {
                     if (!flag_rightLeg) {
                         rightLeg_origin.rotateX(0.02);
-
-                        if (rightLeg_origin.rotation.x == 0.01999999881088643) {
-                            self.robot.play_right_footstep();
-                        }
                         if (rightLeg_origin.rotation.x >= 0.35) {
                             flag_rightLeg = true;
                         }
@@ -147,9 +145,6 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 if (leftLeg_origin) {
                     if (!flag_leftLeg) {
                         leftLeg_origin.rotateX(0.02);
-                        if (leftLeg_origin.rotation.x == 0.01999999881088643) {
-                            self.robot.play_left_footstep();
-                        }
                         if (leftLeg_origin.rotation.x >= 0.35) {
                             flag_leftLeg = true;
                         }
@@ -267,6 +262,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
             $("#parametric_table").hide();
             $("#table_loaders").hide();
             $("#table_Robot").hide();
+            $("#table_Shaders").hide();
             $("#random").show();
 
             $("#btnRandom").click((function() {
@@ -277,6 +273,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#random").show();
             }));
 
@@ -288,6 +285,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#band").show();
             }));
 
@@ -299,6 +297,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#cube_table").show();
             }));
 
@@ -310,6 +309,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#sphere_table").show();
             }));
 
@@ -321,6 +321,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#cylinder_table").show();
             }));
 
@@ -332,6 +333,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#cylinder_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#parametric_table").show();
             }));
 
@@ -343,6 +345,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#cylinder_table").hide();
                 $("#parametric_table").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").hide();
                 $("#table_loaders").show();
             }));
 
@@ -354,6 +357,7 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#cylinder_table").hide();
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
+                $("#table_Shaders").hide();
                 $("#table_Robot").show();
             }));
 
@@ -366,8 +370,15 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 $("#parametric_table").hide();
                 $("#table_loaders").hide();
                 $("#table_Robot").hide();
+                $("#table_Shaders").show();
             }));
 
+            var aLight = new THREE.AmbientLight('#444444');
+            var dLight = new THREE.DirectionalLight('#FFF8D1', 1);
+            dLight.name = "dLight";
+            dLight.position.set(0.7, 0.77, -0.7).normalize();
+            scene.addLight(aLight);
+            scene.addLight(dLight);
             $("#btnLoadRobot").click((function() {
                 self.robot = new Robot();
                 scene.add(self.robot.buildRobot());
@@ -453,7 +464,40 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 scene.add(sphere);
             }));
 
-            
+            $("#btnLoadPhongSphere").click((function() {
+                var phongSphere = new Phong_3;
+                scene.add(phongSphere.getMesh());
+            }));
+
+            $('#btnLoadPlanet').click(function() {
+                console.log("Creating a new planet...");
+                console.log(scene);
+                var planet = new Planet($('#chkPlanetDayTexture').is(':checked'), $('#chkPlanetNightTexture').is(':checked'), $('#chkPlanetCloudsTexture').is(':checked'));
+                scene.add(planet.getMesh());
+                currentPlanet = planet;
+            });
+
+            $('#chkNightTex').change(function() {
+                if ($(this).is(':checked')) {
+                    currentPlanet.getMaterial().uniforms.showNightTexture.value = 1;
+                } else {
+                    currentPlanet.getMaterial().uniforms.showNightTexture.value = 0;
+                }
+            });
+
+            $('#chkCloudsTex').change(function() {
+                if ($(this).is(':checked')) {
+                    currentPlanet.getMaterial().uniforms.showCloudTexture.value = 1;
+                } else {
+                    currentPlanet.getMaterial().uniforms.showCloudTexture.value = 0;
+                }
+            });
+
+            $("#btnLoadExplosion").click((function() {
+                var exlposion = new Explosion;
+                scene.add(exlposion.getMesh());
+            }));
+
             $("#btnNewCylinder").click((function() {
                 var topRadius = parseInt($("#radius_top").attr("value"));
                 var bottomRadius = parseInt($("#radius_bottom").attr("value"));
@@ -652,14 +696,6 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
                 scene.addBufferGeometry(bufferGeometry);
             });
 
-            var pointLight = new THREE.DirectionalLight(0xFFFFFF, 1, 100000);
-            pointLight.position.set(-3, 7, 7);
-            scene.add(pointLight);
-
-            var ambientLight = new THREE.AmbientLight(0x000000);
-            scene.add(ambientLight);
-
-
             /*animations for each object around the different axes*/
             $('#chckAnimX').change(function() {
                 if ($(this).is(':checked')) {
@@ -689,10 +725,8 @@ define(["three", "jquery", "BufferGeometry", "random", "band", "scene", "ellipso
 
             $('#chckAnimRobot').change(function() {
                 if ($(this).is(':checked')) {
-                    self.robot.play_sound();
                     this.animationInterval = setInterval(animate, 30);
                 } else {
-                    self.robot.stop_sound();
                     clearInterval(this.animationInterval);
                 }
             });

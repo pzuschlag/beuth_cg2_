@@ -1,3 +1,6 @@
+
+
+
 define(["three", "BufferGeometry"],
     (function(THREE, BufferGeometry) {
 
@@ -17,7 +20,7 @@ define(["three", "BufferGeometry"],
         };
 
 
-        var Leg_test = ((function() {
+        var ArmLeg = ((function() {
 
             //sizes for feet, hands & segments
             var footSize = [80, 40, 40];
@@ -99,5 +102,5 @@ define(["three", "BufferGeometry"],
                 return this.root;
             }
         }));
-        return Leg_test;
+        return ArmLeg;
     }));
